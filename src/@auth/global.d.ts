@@ -1,5 +1,6 @@
-import { DefaultSession } from 'next-auth';
-import { User as DbUser } from '@auth/user';
+/* eslint-disable prettier/prettier */
+import type { DefaultSession } from 'next-auth';
+import type { User as DbUser } from '@auth/user';
 
 declare module 'next-auth' {
   interface Session {
@@ -12,6 +13,9 @@ declare module 'next-auth' {
     } & DefaultSession['user'];
     db?: DbUser;
   }
+}
+
+declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
     user?: {
@@ -22,3 +26,6 @@ declare module 'next-auth' {
     };
   }
 }
+
+// memastikan ini dianggap module augmentation
+export {};
