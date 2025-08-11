@@ -17,23 +17,23 @@ import signinErrors from './signinErrors';
  * Form Validation Schema
  */
 const schema = z.object({
-	email: z.string().email('You must enter a valid email').nonempty('You must enter an email'),
-	password: z
-		.string()
-		.min(4, 'Password is too short - must be at least 4 chars.')
-		.nonempty('Please enter your password.')
+        username: z.string().nonempty('You must enter a username'),
+        password: z
+                .string()
+                .min(4, 'Password is too short - must be at least 4 chars.')
+                .nonempty('Please enter your password.')
 });
 
 type FormType = {
-	email: string;
-	password: string;
-	remember?: boolean;
+        username: string;
+        password: string;
+        remember?: boolean;
 };
 
 const defaultValues = {
-	email: '',
-	password: '',
-	remember: true
+        username: '',
+        password: '',
+        remember: true
 };
 
 function AuthJsCredentialsSignInForm() {
@@ -45,26 +45,26 @@ function AuthJsCredentialsSignInForm() {
 
 	const { isValid, dirtyFields, errors } = formState;
 
-	useEffect(() => {
-		setValue('email', 'admin@fusetheme.com', {
-			shouldDirty: true,
-			shouldValidate: true
-		});
-		setValue('password', '5;4+0IOx:\\Dy', {
-			shouldDirty: true,
-			shouldValidate: true
-		});
-	}, [setValue]);
+        useEffect(() => {
+                setValue('username', 'admin', {
+                        shouldDirty: true,
+                        shouldValidate: true
+                });
+                setValue('password', '5;4+0IOx:\\Dy', {
+                        shouldDirty: true,
+                        shouldValidate: true
+                });
+        }, [setValue]);
 
-	async function onSubmit(formData: FormType) {
-		const { email, password } = formData;
+        async function onSubmit(formData: FormType) {
+                const { username, password } = formData;
 
-		const result = await signIn('credentials', {
-			email,
-			password,
-			formType: 'signin',
-			redirect: false
-		});
+                const result = await signIn('credentials', {
+                        username,
+                        password,
+                        formType: 'signin',
+                        redirect: false
+                });
 
 		if (result?.error) {
 			setError('root', { type: 'manual', message: signinErrors[result.error] });
@@ -93,24 +93,24 @@ function AuthJsCredentialsSignInForm() {
 					{errors?.root?.message}
 				</Alert>
 			)}
-			<Controller
-				name="email"
-				control={control}
-				render={({ field }) => (
-					<TextField
-						{...field}
-						className="mb-6"
-						label="Email"
-						autoFocus
-						type="email"
-						error={!!errors.email}
-						helperText={errors?.email?.message}
-						variant="outlined"
-						required
-						fullWidth
-					/>
-				)}
-			/>
+                        <Controller
+                                name="username"
+                                control={control}
+                                render={({ field }) => (
+                                        <TextField
+                                                {...field}
+                                                className="mb-6"
+                                                label="Username"
+                                                autoFocus
+                                                type="text"
+                                                error={!!errors.username}
+                                                helperText={errors?.username?.message}
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                        />
+                                )}
+                        />
 			<Controller
 				name="password"
 				control={control}
